@@ -103,6 +103,7 @@ SaveDog.navigationOptions = ({ navigation }) => {
 
   return {
     title: dog ? "Edit Dog" : "Add 🐶",
+    headerBackTitleVisible: false,
   };
 };
 

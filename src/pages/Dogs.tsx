@@ -57,6 +57,11 @@ export const Dogs = ({ navigation }) => {
   );
 };
 
+Dogs.navigationOptions = {
+  headerBackTitleVisible: false,
+  title: "All The Doggos",
+};
+
 const styles = StyleSheet.create({
   layout: {
     flex: 1,

@@ -16,6 +16,10 @@ export const Home = ({ navigation }) => {
   );
 };
 
+Home.navigationOptions = {
+  title: "Dogstagram",
+};
+
 const styles = StyleSheet.create({
   layout: {
     flex: 1,
