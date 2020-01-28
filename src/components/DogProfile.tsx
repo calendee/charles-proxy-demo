@@ -2,13 +2,7 @@ import React from "react";
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 
-export const UserItem = ({
-  firstName,
-  lastName,
-  email,
-  profileImage,
-  onPress,
-}) => {
+export const DogProfile = ({ name, saying, profileImage, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Layout style={styles.layout}>
@@ -21,8 +15,8 @@ export const UserItem = ({
           resizeMode="contain"
         />
         <Layout style={styles.info}>
-          <Text category="h2">{`${firstName} ${lastName}`}</Text>
-          <Text category="s1">{`${email}`}</Text>
+          <Text category="h2">{`${name}`}</Text>
+          <Text category="s1">{`${saying}`}</Text>
         </Layout>
       </Layout>
     </TouchableOpacity>

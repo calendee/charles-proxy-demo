@@ -1,14 +1,14 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { Home } from "./pages/Home";
-import { Users } from "./pages/Users";
-import { SaveUser } from "./pages/SaveUser";
+import { Dogs } from "./pages/Dogs";
+import { SaveDog } from "./pages/SaveDog";
 
 const HomeNavigator = createStackNavigator(
   {
     Home,
-    Users,
-    SaveUser,
+    Dogs,
+    SaveDog,
   },
   {
     initialRouteName: "Home",

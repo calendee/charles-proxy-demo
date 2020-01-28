@@ -3,36 +3,35 @@ import { StyleSheet } from "react-native";
 import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import Reactotron from "reactotron-react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useUsers } from "../hooks/useUsers";
+import { useDogs } from "../hooks/useDogs";
 
-export const SaveUser = ({ navigation }) => {
-  const passedUser = navigation.getParam("user") || {};
-  Reactotron.log("Passed user = ", passedUser);
-  const [, statusInfo, userApi] = useUsers();
+export const SaveDog = ({ navigation }) => {
+  const passedDog = navigation.getParam("dog") || {};
+  Reactotron.log("Passed dog = ", passedDog);
+  const [, statusInfo, dogApi] = useDogs();
 
-  const [firstName, setFirstName] = useState(passedUser.firstName || "");
-  const [lastName, setLastName] = useState(passedUser.lastName || "");
-  const [email, setEmail] = useState(passedUser.email || "");
-  const [id] = useState(passedUser.id || null);
+  const [id] = useState(passedDog.id || null);
+  const [name, setName] = useState(passedDog.name || "");
+  const [saying, setSaying] = useState(passedDog.saying || "");
   const [profileImage, setProfileImage] = useState(
-    passedUser.profileImage || "",
+    passedDog.profileImage || "",
   );
   const [valid, setValid] = useState(true);
-  const saveUser = () => {
-    if (!firstName || !lastName || !email || !profileImage) {
+  const saveDog = () => {
+    Reactotron.log("Save Dog!", name, saying, profileImage);
+    if (!name || !saying || !profileImage) {
       setValid(false);
       return;
     }
 
-    const user = {
-      firstName,
-      lastName,
-      email,
+    const dog = {
+      name,
+      saying,
       profileImage,
       id,
     };
 
-    userApi.saveUser(user).then(() => {
+    dogApi.saveDog(dog).then(() => {
       navigation.goBack();
     });
   };
@@ -46,36 +45,21 @@ export const SaveUser = ({ navigation }) => {
       <Layout style={styles.layout}>
         <Input
           autoCompleteType="name"
-          keyboardType="name-phone-pad"
-          textContentType="givenName"
-          label="First Name"
-          placeholder="Your first name"
-          value={firstName}
-          onChangeText={setFirstName}
+          textContentType="name"
+          label="Doggo's Name"
+          placeholder="Your name, dog"
+          value={name}
+          onChangeText={setName}
           onFocus={resetValid}
           style={styles.input}
         />
         <Input
-          autoCompleteType="name"
-          keyboardType="name-phone-pad"
-          textContentType="familyName"
-          label="Last Name"
-          placeholder="Your last name"
-          value={lastName}
-          onChangeText={setLastName}
-          onFocus={resetValid}
-          style={styles.input}
-        />
-        <Input
-          autoCompleteType="email"
-          autoCapitalize="none"
+          autoCapitalize="words"
           autoCorrect={false}
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          label="Email"
-          placeholder="Your email address"
-          value={email}
-          onChangeText={setEmail}
+          label="Favorite Saying"
+          placeholder="What's up, dog?"
+          value={saying}
+          onChangeText={setSaying}
           onFocus={resetValid}
           style={styles.input}
         />
@@ -86,14 +70,14 @@ export const SaveUser = ({ navigation }) => {
           keyboardType="url"
           textContentType="URL"
           label="Profile Image"
-          placeholder="A link to your profile image"
+          placeholder="No pics, didn't happen"
           value={profileImage}
           onChangeText={setProfileImage}
           onFocus={resetValid}
           style={styles.input}
         />
         <Button
-          onPress={saveUser}
+          onPress={saveDog}
           style={styles.saveButton}
           disabled={statusInfo.fetching}
         >
@@ -101,12 +85,12 @@ export const SaveUser = ({ navigation }) => {
         </Button>
         {valid ? null : (
           <Text category="s1" status="danger" style={styles.errorText}>
-            Please complete the form
+            Please complete the form, dog!
           </Text>
         )}
         {statusInfo.error ? (
           <Text category="s1" status="danger" style={styles.errorText}>
-            Oops... Something went wrong. Please try again.
+            💩... Something went wrong. Please try again.
           </Text>
         ) : null}
       </Layout>
@@ -114,11 +98,11 @@ export const SaveUser = ({ navigation }) => {
   );
 };
 
-SaveUser.navigationOptions = ({ navigation }) => {
-  const user = navigation.getParam("user");
+SaveDog.navigationOptions = ({ navigation }) => {
+  const dog = navigation.getParam("dog");
 
   return {
-    title: user ? "Edit User" : "Add User",
+    title: dog ? "Edit Dog" : "Add 🐶",
   };
 };
 

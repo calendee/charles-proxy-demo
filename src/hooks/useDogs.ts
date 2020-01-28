@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import Reactotron from "reactotron-react-native";
 
-const DOMAIN = "https://calendee1.ngrok.io/users";
+const DOMAIN = "https://calendee1.ngrok.io/dogs";
 
-export const useUsers = () => {
-  const [users, setUsers] = useState([]);
+export const useDogs = () => {
+  const [dogs, setDogs] = useState([]);
   const [error, setError] = useState(null);
   const [fetching, setFetching] = useState(false);
 
-  const fetchUsers = useCallback(() => {
+  const fetchDogs = useCallback(() => {
     setFetching(true);
     fetch(DOMAIN)
       .then(response => {
@@ -18,23 +18,23 @@ export const useUsers = () => {
         throw Error(response.statusText);
       })
       .then(responseJson => {
-        setUsers(responseJson);
+        setDogs(responseJson);
       })
       .catch(error => {
-        Reactotron.log("Failed to fetch users!!!", error);
-        setError("Failed to fetch users!");
-        setUsers([]);
+        Reactotron.log("Failed to fetch dogs", error);
+        setError("Failed to fetch dogs");
+        setDogs([]);
       })
       .finally(() => {
         setFetching(false);
       });
   }, []);
 
-  const saveUser = useCallback(userDetails => {
+  const saveDog = useCallback(dogDetails => {
     setFetching(true);
     return fetch(DOMAIN, {
-      method: userDetails.id ? "PUT" : "POST",
-      body: JSON.stringify(userDetails),
+      method: dogDetails.id ? "PUT" : "POST",
+      body: JSON.stringify(dogDetails),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
@@ -46,11 +46,11 @@ export const useUsers = () => {
         throw Error(response.statusText);
       })
       .then(responseJson => {
-        setUsers(responseJson);
+        setDogs(responseJson);
       })
       .catch(error => {
-        Reactotron.log("Failed to save user!", error);
-        setError("Failed to save user");
+        Reactotron.log("Failed to save dog", error);
+        setError("Failed to save dog");
       })
       .finally(() => {
         setFetching(false);
@@ -63,16 +63,16 @@ export const useUsers = () => {
 
   useEffect(() => {
     resetError();
-    fetchUsers();
+    fetchDogs();
   }, []);
 
   return [
-    users,
+    dogs,
     { error, fetching },
     {
       resetError,
-      fetchUsers,
-      saveUser,
+      fetchDogs,
+      saveDog,
     },
   ];
 };

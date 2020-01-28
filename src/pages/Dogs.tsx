@@ -3,16 +3,16 @@ import { StyleSheet } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import Reactotron from "reactotron-react-native";
 
-import { useUsers } from "../hooks/useUsers";
-import { UserItem } from "../components/UserItem";
+import { useDogs } from "../hooks/useDogs";
+import { DogProfile } from "../components/DogProfile";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 
-export const Users = ({ navigation }) => {
-  const [users, statusInfo, userApi] = useUsers();
+export const Dogs = ({ navigation }) => {
+  const [dogs, statusInfo, dogApi] = useDogs();
 
   useEffect(() => {
     const listener = navigation.addListener("willFocus", () => {
-      userApi.fetchUsers();
+      dogApi.fetchDogs();
     });
 
     return () => {
@@ -20,9 +20,9 @@ export const Users = ({ navigation }) => {
     };
   }, []);
 
-  const goToSaveUser = user => {
-    Reactotron.log("goToSaveUser -> user", user);
-    navigation.navigate("SaveUser", { user });
+  const goToSaveDog = dog => {
+    Reactotron.log("goToSaveDog -> dog", dog);
+    navigation.navigate("SaveDog", { dog: dog });
   };
 
   if (statusInfo.fetching) {
@@ -31,25 +31,27 @@ export const Users = ({ navigation }) => {
   return (
     <>
       <Layout style={styles.layout}>
-        {users && !statusInfo.error && users.length ? (
+        {dogs && !statusInfo.error && dogs.length ? (
           <>
-            {users.map(user => (
-              <UserItem
-                {...user}
-                key={user.id}
+            {dogs.map(dog => (
+              <DogProfile
+                {...dog}
+                key={dog.id}
                 onPress={() => {
-                  goToSaveUser(user);
+                  goToSaveDog(dog);
                 }}
               />
             ))}
           </>
         ) : (
-          <Text category="s1">No Users Available</Text>
+          <Text category="h1">No 🐕?!</Text>
         )}
         {statusInfo.error ? (
           <Text category="s1">Uh oh ... Something went wrong!</Text>
         ) : null}
-        <Button onPress={goToSaveUser}>Add A User</Button>
+        <Button onPress={goToSaveDog} style={styles.button}>
+          ADD 🐶
+        </Button>
       </Layout>
     </>
   );
@@ -61,5 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     padding: 10,
+  },
+  button: {
+    marginTop: 10,
   },
 });

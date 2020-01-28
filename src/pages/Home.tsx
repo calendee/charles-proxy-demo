@@ -3,14 +3,14 @@ import { StyleSheet } from "react-native";
 import { Button, Layout } from "@ui-kitten/components";
 
 export const Home = ({ navigation }) => {
-  const goToUsers = () => {
-    navigation.navigate("Users");
+  const goToDogs = () => {
+    navigation.navigate("Dogs");
   };
 
   return (
     <>
       <Layout style={styles.layout}>
-        <Button onPress={goToUsers}>VIEW USERS</Button>
+        <Button onPress={goToDogs}>VIEW 🐶🐕</Button>
       </Layout>
     </>
   );
